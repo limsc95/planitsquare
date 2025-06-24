@@ -29,7 +29,7 @@ public class Holiday {
 
     private Integer launchYear;
 
-    private String type;
+    private String types;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_code")

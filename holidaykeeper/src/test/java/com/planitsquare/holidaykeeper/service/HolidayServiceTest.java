@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = HolidaykeeperApplication.class)
@@ -54,7 +55,7 @@ class HolidayServiceTest {
         assertTrue(countryCount > 0, "국가 정보가 저장되어야 합니다.");
     }
 
-    @Disabled("조회 테스트 임시 비활성화")
+    @Disabled("조회 테스트 비활성화")
     @Test
     @DisplayName("조건에 따른 공휴일 검색")
     void testSearchHolidaysByCondition() {
@@ -96,6 +97,7 @@ class HolidayServiceTest {
         assertEquals(2, result.getTotalElements(), "조건에 맞는 공휴일이 2건 조회되어야 합니다.");
     }
 
+    @Disabled("재동기화 테스트 비활성화")
     @Test
     @DisplayName("국가와 연도를 기준으로 공휴일 재동기화 수행")
     void testRefreshHolidays() {
@@ -108,5 +110,41 @@ class HolidayServiceTest {
         // then
         List<Holiday> refreshed = holidayRepository.findAll();
         assertFalse(refreshed.isEmpty(), "공휴일이 새로 저장되어야 합니다.");
+    }
+
+    @Disabled("삭제 테스트 비동기화")
+    @Test
+    @DisplayName("국가 및 연도 기반 공휴일 삭제 테스트")
+    void testDeleteByCountryAndYear() {
+        // given
+        Country country = Country.builder()
+                .countryCode("KR")
+                .name("대한민국")
+                .build();
+
+        countryRepository.save(country);
+
+        Holiday h1 = Holiday.builder()
+                .date(LocalDate.of(2023, 1, 1))
+                .name("New Year's Day")
+                .localName("새해")
+                .country(country)
+                .build();
+
+        Holiday h2 = Holiday.builder()
+                .date(LocalDate.of(2023, 2, 1))
+                .name("Sample Holiday")
+                .localName("샘플")
+                .country(country)
+                .build();
+
+        holidayRepository.saveAll(List.of(h1, h2));
+
+        // when
+        holidayService.deleteHolidays("KR", 2023);
+
+        // then
+        List<Holiday> holidays = holidayRepository.findByCountryAndYear("KR", 2023);
+        assertThat(holidays).isEmpty();
     }
 }

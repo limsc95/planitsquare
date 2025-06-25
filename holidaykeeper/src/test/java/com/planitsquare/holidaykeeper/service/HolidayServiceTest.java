@@ -16,9 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDate;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = HolidaykeeperApplication.class)
 @DisplayName("HolidayService 단위 테스트")
@@ -39,7 +39,7 @@ class HolidayServiceTest {
         countryRepository.deleteAll();
     }
 
-    @Disabled("조회 테스트로 임시 비활성화")
+    @Disabled("적재 테스트 비활성화")
     @Test
     @DisplayName("5년치 공휴일이 정상적으로 적재되는지 확인")
     void testLoadAllCountriesAndHolidays() {
@@ -54,6 +54,7 @@ class HolidayServiceTest {
         assertTrue(countryCount > 0, "국가 정보가 저장되어야 합니다.");
     }
 
+    @Disabled("조회 테스트 임시 비활성화")
     @Test
     @DisplayName("조건에 따른 공휴일 검색")
     void testSearchHolidaysByCondition() {
@@ -93,5 +94,19 @@ class HolidayServiceTest {
 
         // then
         assertEquals(2, result.getTotalElements(), "조건에 맞는 공휴일이 2건 조회되어야 합니다.");
+    }
+
+    @Test
+    @DisplayName("국가와 연도를 기준으로 공휴일 재동기화 수행")
+    void testRefreshHolidays() {
+        // given
+        countryRepository.save(Country.builder().countryCode("KR").name("대한민국").build());
+
+        // when
+        holidayService.refreshHolidays("KR", 2025);
+
+        // then
+        List<Holiday> refreshed = holidayRepository.findAll();
+        assertFalse(refreshed.isEmpty(), "공휴일이 새로 저장되어야 합니다.");
     }
 }

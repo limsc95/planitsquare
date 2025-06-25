@@ -16,10 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -105,6 +102,10 @@ public class HolidayService {
                 .stream()
                 .collect(Collectors.toMap(Holiday::getDate, h -> h));
 
+        Set<LocalDate> fetchedDates = fetchedHolidays.stream()
+                .map(Holiday::getDate)
+                .collect(Collectors.toSet());
+
         List<Holiday> toInsert = new ArrayList<>();
         List<Holiday> toUpdate = new ArrayList<>();
 
@@ -119,6 +120,13 @@ public class HolidayService {
             }
         }
 
+        List<Holiday> toDelete = existingHolidays.values().stream()
+                        .filter(h -> !fetchedDates.contains(h.getDate()))
+                        .toList();
+
+        if (!toDelete.isEmpty()) {
+            holidayRepository.deleteAll(toDelete);
+        }
         holidayRepository.saveAll(toUpdate);
         holidayRepository.saveAll(toInsert);
     }

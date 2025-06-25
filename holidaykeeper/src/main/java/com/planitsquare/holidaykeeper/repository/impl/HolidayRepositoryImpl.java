@@ -19,7 +19,7 @@ public class HolidayRepositoryImpl implements HolidayRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Holiday> search(HolidaySearchCondition condition, Pageable pageable) {
+    public Page<Holiday> searchHolidays(HolidaySearchCondition condition, Pageable pageable) {
         QHoliday holiday = QHoliday.holiday;
         QCountry country = QCountry.country;
 

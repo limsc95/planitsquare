@@ -28,7 +28,7 @@ public class HolidayController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<HolidayResponse>> search(
+    public ResponseEntity<Page<HolidayResponse>> searchHolidays(
             @RequestParam(required = false) String countryCode,
             @RequestParam(required = false) Integer year,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
@@ -40,7 +40,7 @@ public class HolidayController {
         HolidaySearchCondition condition = new HolidaySearchCondition(countryCode.toUpperCase(), year, fromDate, toDate, types);
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<Holiday> holidayPage = holidayService.search(condition, pageable);
+        Page<Holiday> holidayPage = holidayService.searchHolidays(condition, pageable);
 
         Page<HolidayResponse> response = holidayPage.map(HolidayResponse::from);
 

@@ -89,7 +89,7 @@ class HolidayServiceTest {
                 .build();
 
         // when
-        Page<Holiday> result = holidayService.search(condition, PageRequest.of(0, 10));
+        Page<Holiday> result = holidayService.searchHolidays(condition, PageRequest.of(0, 10));
 
         // then
         assertEquals(2, result.getTotalElements(), "조건에 맞는 공휴일이 2건 조회되어야 합니다.");

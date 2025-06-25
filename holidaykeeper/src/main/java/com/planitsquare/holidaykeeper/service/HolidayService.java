@@ -83,7 +83,8 @@ public class HolidayService {
         log.info("총 실패: {}", failCount.intValue());
     }
 
-    public Page<Holiday> search(HolidaySearchCondition condition, Pageable pageable) {
-        return holidayRepository.search(condition,pageable);
+    public Page<Holiday> searchHolidays(HolidaySearchCondition condition, Pageable pageable) {
+        return holidayRepository.searchHolidays(condition,pageable);
     }
+
 }

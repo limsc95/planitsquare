@@ -6,5 +6,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface HolidayRepositoryCustom {
-    Page<Holiday> search(HolidaySearchCondition condition, Pageable pageable);
+    Page<Holiday> searchHolidays(HolidaySearchCondition condition, Pageable pageable);
 }

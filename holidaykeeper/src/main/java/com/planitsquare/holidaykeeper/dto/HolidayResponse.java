@@ -24,9 +24,18 @@ public record HolidayResponse(
                 holiday.getCountry().getCountryCode(),
                 holiday.getFixed(),
                 holiday.getGlobal(),
-                null,
-                null,
+                convertCommaSeparatedToList(holiday.getTypes()),
+                convertCommaSeparatedToList(holiday.getCounties()),
                 holiday.getLaunchYear()
         );
+    }
+
+    public static HolidayResponse from(Holiday holiday){
+        return new HolidayResponse(holiday);
+    }
+
+    private static List<String> convertCommaSeparatedToList(String value){
+        if (value == null || value.isBlank()) return null;
+        return List.of(value.split(","));
     }
 }

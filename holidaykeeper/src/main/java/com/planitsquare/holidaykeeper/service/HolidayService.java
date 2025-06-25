@@ -3,12 +3,15 @@ package com.planitsquare.holidaykeeper.service;
 import com.planitsquare.holidaykeeper.api.HolidayApi;
 import com.planitsquare.holidaykeeper.dto.CountryResponse;
 import com.planitsquare.holidaykeeper.dto.HolidayResponse;
+import com.planitsquare.holidaykeeper.dto.HolidaySearchCondition;
 import com.planitsquare.holidaykeeper.entity.Country;
 import com.planitsquare.holidaykeeper.entity.Holiday;
 import com.planitsquare.holidaykeeper.repository.CountryRepository;
 import com.planitsquare.holidaykeeper.repository.HolidayRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,5 +81,9 @@ public class HolidayService {
         log.info("성공 국가: {}", countryCount.intValue());
         log.info("성공 휴일: {}", holidayCount.intValue());
         log.info("총 실패: {}", failCount.intValue());
+    }
+
+    public Page<Holiday> search(HolidaySearchCondition condition, Pageable pageable) {
+        return holidayRepository.search(condition,pageable);
     }
 }

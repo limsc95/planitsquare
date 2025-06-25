@@ -11,4 +11,6 @@ public interface HolidayRepositoryCustom {
     Page<Holiday> searchHolidays(HolidaySearchCondition condition, Pageable pageable);
 
     List<Holiday> findByCountryAndYear(String countryCode , int year);
+
+    void deleteByCountryAndYear(String countryCode, int year);
 }

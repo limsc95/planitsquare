@@ -73,4 +73,16 @@ public class HolidayRepositoryImpl implements HolidayRepositoryCustom {
                         holiday.date.year().eq(year))
                 .fetch();
     }
+
+    @Override
+    public void deleteByCountryAndYear(String countryCode, int year) {
+        QHoliday holiday = QHoliday.holiday;
+
+        queryFactory.delete(holiday)
+                .where(
+                        holiday.country.countryCode.eq(countryCode),
+                        holiday.date.year().eq(year)
+                )
+                .execute();
+    }
 }

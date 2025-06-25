@@ -94,6 +94,9 @@ public class HolidayService {
 
     public void refreshHolidays(String countryCode, Integer year) {
         Country country = countryRepository.findByCountryCode(countryCode);
+        if (country == null) {
+            throw new IllegalArgumentException("존재하지 않는 국가 코드입니다.");
+        }
 
         List<Holiday> fetchedHolidays = holidayApi.fetchHolidays(year, country);
 
@@ -118,5 +121,14 @@ public class HolidayService {
 
         holidayRepository.saveAll(toUpdate);
         holidayRepository.saveAll(toInsert);
+    }
+
+    public void deleteHolidays(String countryCode, Integer year) {
+        boolean exists = countryRepository.existsByCountryCode(countryCode);
+        if (!exists) {
+            throw new IllegalArgumentException("존재하지 않는 국가입니다.");
+        }
+
+        holidayRepository.deleteByCountryAndYear(countryCode, year);
     }
 }

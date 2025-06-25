@@ -55,4 +55,13 @@ public class HolidayController {
         holidayService.refreshHolidays(countryCode.toUpperCase(), year);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteHolidays(
+            @RequestParam String countryCode,
+            @RequestParam Integer year
+    ) {
+        holidayService.deleteHolidays(countryCode.toUpperCase(), year);
+        return ResponseEntity.noContent().build();
+    }
 }

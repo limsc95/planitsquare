@@ -1,4 +1,4 @@
-package com.planitsquare.runner;
+package com.planitsquare.holidaykeeper.runner;
 
 import com.planitsquare.holidaykeeper.service.HolidayService;
 import lombok.RequiredArgsConstructor;

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HolidayController {
     private final HolidayService holidayService;
 
-    // TODO: api 호출이 아닌 최초 실행 시 실행으로 수정 필요.
+    // runner를 통한 최초 실행으로 사용 x, 수동으로 실행 시 필요로 인해 유지
     @PostMapping("/init")
     public ResponseEntity<Void> initData() {
         holidayService.loadAllCountriesAndHolidaysFor5Years();

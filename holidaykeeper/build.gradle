@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.5.3'
 	id 'io.spring.dependency-management' version '1.1.7'
+	//id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
 }
 
 group = 'com.planitsquare'
@@ -17,6 +18,7 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+	querydsl
 }
 
 repositories {
@@ -34,16 +36,21 @@ dependencies {9i
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	//implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
-	//implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-	//annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
+	annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+	annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+
+	querydsl 'com.querydsl:querydsl-apt:5.0.0:jakarta'
+	querydsl 'jakarta.persistence:jakarta.persistence-api'
+	querydsl 'jakarta.annotation:jakarta.annotation-api'
 
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-def querydslDir = "build/generated/querydsl"
+def querydslDir = "$buildDir/generated/querydsl"
 
 sourceSets {
 	main {
@@ -54,9 +61,16 @@ sourceSets {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	doFirst {
-		options.generatedSourceOutputDirectory = file(querydslDir)
-	}
+	options.annotationProcessorGeneratedSourcesDirectory = file(querydslDir)
+}
+
+tasks.register("compileQuerydsl", JavaCompile) {
+	group = "build"
+	description = "Compile Querydsl Q-classes"
+	source = sourceSets.main.java
+	classpath = configurations.compileClasspath + configurations.querydsl
+	destinationDirectory.set(file(querydslDir))
+	options.annotationProcessorPath = configurations.querydsl
 }
 
 tasks.named('test') {

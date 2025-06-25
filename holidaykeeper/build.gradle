@@ -38,8 +38,8 @@ dependencies {9i
 	//implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 	//annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
 
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.mockito:mockito-core'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

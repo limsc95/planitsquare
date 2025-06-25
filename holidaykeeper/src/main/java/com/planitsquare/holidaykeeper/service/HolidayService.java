@@ -15,8 +15,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -87,4 +92,31 @@ public class HolidayService {
         return holidayRepository.searchHolidays(condition,pageable);
     }
 
+    public void refreshHolidays(String countryCode, Integer year) {
+        Country country = countryRepository.findByCountryCode(countryCode);
+
+        List<Holiday> fetchedHolidays = holidayApi.fetchHolidays(year, country);
+
+        Map<LocalDate, Holiday> existingHolidays = holidayRepository
+                .findByCountryAndYear(countryCode, year)
+                .stream()
+                .collect(Collectors.toMap(Holiday::getDate, h -> h));
+
+        List<Holiday> toInsert = new ArrayList<>();
+        List<Holiday> toUpdate = new ArrayList<>();
+
+        for (Holiday fetched : fetchedHolidays) {
+            Holiday existing = existingHolidays.get(fetched.getDate());
+            if (existing != null) {
+                existing.updateFrom(fetched);
+                toUpdate.add(existing);
+            } else {
+                fetched.updateCountry(country);
+                toInsert.add(fetched);
+            }
+        }
+
+        holidayRepository.saveAll(toUpdate);
+        holidayRepository.saveAll(toInsert);
+    }
 }

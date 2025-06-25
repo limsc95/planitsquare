@@ -46,4 +46,13 @@ public class HolidayController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/refresh")
+    public ResponseEntity<Void> refreshHolidays(
+            @RequestParam String countryCode,
+            @RequestParam Integer year
+    ) {
+        holidayService.refreshHolidays(countryCode.toUpperCase(), year);
+        return ResponseEntity.ok().build();
+    }
 }

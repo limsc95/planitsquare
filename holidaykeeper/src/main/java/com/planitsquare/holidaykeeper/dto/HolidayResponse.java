@@ -1,5 +1,6 @@
 package com.planitsquare.holidaykeeper.dto;
 
+import com.planitsquare.holidaykeeper.entity.Country;
 import com.planitsquare.holidaykeeper.entity.Holiday;
 
 import java.time.LocalDate;
@@ -37,5 +38,23 @@ public record HolidayResponse(
     private static List<String> convertCommaSeparatedToList(String value){
         if (value == null || value.isBlank()) return null;
         return List.of(value.split(","));
+    }
+
+    public Holiday  toEntity(Country country) {
+        return Holiday.builder()
+                .date(this.date)
+                .localName(this.localName)
+                .name(this.name)
+                .fixed(this.fixed)
+                .global(this.global)
+                .launchYear(this.launchYear)
+                .counties(convertListToCommaSeparated(this.counties))
+                .types(convertListToCommaSeparated(this.types))
+                .country(country)
+                .build();
+    }
+
+    private static String convertListToCommaSeparated(List<String> list) {
+        return (list == null || list.isEmpty()) ? null : String.join(",", list);
     }
 }

@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  holiday-api:
+    build: .
+    container_name: holiday-api
+    ports:
+      - "8080:8080"
+    environment:
+      - JAVA_OPTS=-Dh2.console.webAllowOthers=true
+    restart: unless-stopped

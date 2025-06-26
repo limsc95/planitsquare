@@ -40,7 +40,7 @@ class HolidayServiceTest {
         countryRepository.deleteAll();
     }
 
-    @Disabled("적재 테스트 비활성화")
+    //@Disabled("적재 테스트 비활성화")
     @Test
     @DisplayName("5년치 공휴일이 정상적으로 적재되는지 확인")
     void testLoadAllCountriesAndHolidays() {
@@ -55,7 +55,7 @@ class HolidayServiceTest {
         assertTrue(countryCount > 0, "국가 정보가 저장되어야 합니다.");
     }
 
-    @Disabled("조회 테스트 비활성화")
+    //@Disabled("조회 테스트 비활성화")
     @Test
     @DisplayName("조건에 따른 공휴일 검색")
     void testSearchHolidaysByCondition() {
@@ -97,7 +97,7 @@ class HolidayServiceTest {
         assertEquals(2, result.getTotalElements(), "조건에 맞는 공휴일이 2건 조회되어야 합니다.");
     }
 
-    @Disabled("재동기화 테스트 비활성화")
+    //@Disabled("재동기화 테스트 비활성화")
     @Test
     @DisplayName("국가와 연도를 기준으로 공휴일 재동기화 수행")
     void testRefreshHolidays() {
@@ -112,7 +112,7 @@ class HolidayServiceTest {
         assertFalse(refreshed.isEmpty(), "공휴일이 새로 저장되어야 합니다.");
     }
 
-    @Disabled("삭제 테스트 비동기화")
+    //@Disabled("삭제 테스트 비동기화")
     @Test
     @DisplayName("국가 및 연도 기반 공휴일 삭제 테스트")
     void testDeleteByCountryAndYear() {

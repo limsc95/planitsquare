@@ -48,6 +48,7 @@
 ---
 ## 📦 빌드 & 실행 방법
 
+### ✅ 로컬 환경에서 직접 실행
 ```bash
 # 1. 빌드
 ./gradlew clean build
@@ -59,6 +60,25 @@
 
 ---
 
+### 🐳 Docker로 실행
+
+```bash
+# Docker 이미지 빌드 및 컨테이너 실행
+docker-compose up --build
+```
+
+* 애플리케이션은 `http://localhost:8080` 에서 실행됩니다.
+* Swagger: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+* H2 콘솔: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
+
+```bash
+# 실행 중인 컨테이너 종료
+docker-compose down
+```
+
+> Docker 실행을 위해 프로젝트 루트에 `Dockerfile` 및 `docker-compose.yml`이 필요합니다.
+
+---
 ## 🔗 API 명세 요약
 
 ### 📌 공휴일 데이터 초기 적재

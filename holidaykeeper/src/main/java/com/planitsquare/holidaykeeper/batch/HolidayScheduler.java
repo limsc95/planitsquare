@@ -19,7 +19,7 @@ public class HolidayScheduler {
     private final HolidayService holidayService;
     private final HolidayApi holidayApi;
 
-    @Scheduled(cron = "0 5 * * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 0 1 2 1 *", zone = "Asia/Seoul")
     public void refreshCurrentAndPreviousYear(){
         int currentYear = LocalDate.now().getYear();
         int previousYear = currentYear -1;

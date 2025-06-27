@@ -172,3 +172,30 @@ docker-compose down
 * OpenAPI JSON: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
 
 ---
+## 🧪 테스트 결과
+
+### 1. 테스트 개요
+
+* HolidayService의 주요 기능(데이터 적재, 조회, 재동기화, 삭제)에 대한 단위 테스트 수행
+* JUnit5 + SpringBootTest 환경에서 테스트 진행
+
+### 2. 실행 명령어
+
+```bash
+./gradlew clean test
+```
+
+### 3. 테스트 실행 결과 이미지
+
+![테스트 실행 결과](./docs/test-code-result.png)
+
+### 4. 주요 테스트 항목 및 결과
+
+| 테스트 이름                          | 설명                    | 결과 |
+| ------------------------------- | --------------------- | -- |
+| testLoadAllCountriesAndHolidays | 5년치 국가별 공휴일 데이터 적재 확인 | 성공 |
+| testSearchHolidaysByCondition   | 조건에 따른 공휴일 조회 테스트     | 성공 |
+| testRefreshHolidays             | 특정 국가·연도 공휴일 재동기화 테스트 | 성공 |
+| testDeleteByCountryAndYear      | 특정 국가·연도 공휴일 삭제 테스트   | 성공 |
+
+---

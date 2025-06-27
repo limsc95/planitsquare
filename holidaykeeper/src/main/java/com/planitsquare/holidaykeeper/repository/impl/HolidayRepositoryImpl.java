@@ -25,24 +25,24 @@ public class HolidayRepositoryImpl implements HolidayRepositoryCustom {
 
         BooleanBuilder builder = new BooleanBuilder();
 
-        if (condition.getCountryCode() != null) {
-            builder.and(holiday.country.countryCode.eq(condition.getCountryCode()));
+        if (condition.countryCode() != null) {
+            builder.and(holiday.country.countryCode.eq(condition.countryCode()));
         }
 
-        if (condition.getYear() != null) {
-            builder.and(holiday.date.year().eq(condition.getYear()));
+        if (condition.year() != null) {
+            builder.and(holiday.date.year().eq(condition.year()));
         }
 
-        if (condition.getFromDate() != null) {
-            builder.and(holiday.date.goe(condition.getFromDate()));
+        if (condition.fromDate() != null) {
+            builder.and(holiday.date.goe(condition.fromDate()));
         }
 
-        if (condition.getToDate() != null) {
-            builder.and(holiday.date.loe(condition.getToDate()));
+        if (condition.toDate() != null) {
+            builder.and(holiday.date.loe(condition.toDate()));
         }
 
-        if (condition.getTypes() != null) {
-            builder.and(holiday.types.containsIgnoreCase(condition.getTypes()));
+        if (condition.types() != null) {
+            builder.and(holiday.types.containsIgnoreCase(condition.types()));
         }
 
         List<Holiday> result = queryFactory

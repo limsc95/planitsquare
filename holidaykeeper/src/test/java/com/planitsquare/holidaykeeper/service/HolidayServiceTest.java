@@ -82,13 +82,13 @@ class HolidayServiceTest {
                 .types("Public")
                 .build());
 
-        HolidaySearchCondition condition = HolidaySearchCondition.builder()
-                .countryCode("KR")
-                .year(2025)
-                .fromDate(LocalDate.of(2025, 1, 1))
-                .toDate(LocalDate.of(2025, 12, 31))
-                .types("Public")
-                .build();
+        HolidaySearchCondition condition = new HolidaySearchCondition(
+                "KR",
+                2025,
+                LocalDate.of(2025, 1, 1),
+                LocalDate.of(2025, 12, 31),
+                "Public"
+        );
 
         // when
         Page<Holiday> result = holidayService.searchHolidays(condition, PageRequest.of(0, 10));
